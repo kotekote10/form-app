@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 
 const formData = [];
@@ -11,6 +12,14 @@ app.use(express.static("build"));
 app.get("/api/data", (request, response) => {
   console.log(formData);
   response.json(formData);
+});
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build/index.html"), function (err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 app.post("/api/data", (request, response) => {
